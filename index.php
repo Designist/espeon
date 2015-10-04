@@ -63,9 +63,7 @@
 
   <!-- Primary Page Layout
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-<?php
-	if(is_Post){
-		echo '	
+
 	<div class="container">
 		
 		<div class="row">
@@ -82,33 +80,7 @@
 		
 		</div>
 	</div>
-	';
-	}
-	else {
-		echo '
-			<div class="row">
-			<div class="third column frontPage" style="margin-top: 5%">
-				<h4><strong>Espeon: OneNote Quiz</strong></h4>
-				<p style = "color:white"> You only get to this page if youre authenticated.</p>
-			</div>
-		</div>
-		
-		<div class = "row">
-			<div id="two-third column form">
-				<form method="POST" action="submit.php">
-					<br />
-					<input type="hidden" name="csrf_token" value="<?php /* Print the automatically generated session ID for CSRF protection */ echo htmlspecialchars($_SESSION['csrf_token']); ?>" />
-					<p>Enter Section Name:</p>
-					<input type="text" name="section" />
-					<br/>
-					<button type="submit" name="submit" value="getPages">Get Pages (ignores section name, paginated)</button><br />
-				</form>
 	
-			</div>
-		
-		</div>
-	';
-	}
 	
 	
    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.4.min.js"></script>
@@ -120,5 +92,5 @@
 
 
 </body>
-?>
+
 </html>
