@@ -66,17 +66,70 @@
 		<div class="row">
 			<div class="third column frontPage" style="margin-top: 5%">
 				<h4><strong>Espeon: OneNote Quiz</strong></h4>
-				<p style = "color:white"> A super intelligent, innovative, revolutionary, creative solution to note review. </p>
+				<p style = "color:white"> You only get to this page if you're authenticated.</p>
 			</div>
 		</div>
 		
 		<div class = "row">
-			<div id="login-panel">
-				<a href="https://login.live.com/oauth20_authorize.srf?client_id=000000004816F77B&scope=wl.signin%20wl.skydrive_update&response_type=token&redirect_uri=https://espeon.azurewebsites.net" target="_blank">Login</a>
+			<div id="two-third column form">
+				<form method="POST" action="submit.php">
+					<br />
+					<input type="hidden" name="csrf_token" value="<?php /* Print the automatically generated session ID for CSRF protection */ echo htmlspecialchars($_SESSION['csrf_token']); ?>" />
+					<p>Enter Section Name:</p>
+					<input type="text" name="section" />
+					<br/>
+					<button type="submit" name="submit" value="getPages">Get Pages (ignores section name, paginated)</button><br />
+				</form>
+	
 			</div>
 		
 		</div>
 	</div>
+	<script src="//js.live.net/v5.0/wl.js" type="text/javascript"></script>
+	<script type="text/javascript">
+		// Update the following values
+		var client_id = "%CLIENT_ID%",
+			scope = ["wl.signin", "wl.basic", "wl.offline_access", "office.onenote_create"],
+			redirect_uri = "%REDIRECT_URI_PATH%/callback.php";
+		function id(domId) { 
+			return document.getElementById(domId);
+		}
+		function displayMe() {  
+			var imgHolder = id("meImg"),
+				nameHolder = id("meName");
+			if (imgHolder.innerHTML != "") return;
+			if (WL.getSession() != null) {
+				WL.api({ path: "me/picture", method: "get" }).then(
+						function (response) {
+							if (response.location) {
+								imgHolder.innerHTML = "<img src='" + response.location + "' />";
+							}
+						}
+					);
+				WL.api({ path: "me", method: "get" }).then(
+						function (response) {
+							nameHolder.innerHTML = response.name;
+						}
+					);
+			}
+		}
+		function clearMe() {
+			id("meImg").innerHTML = "";
+			id("meName").innerHTML = "";
+		}
+		WL.Event.subscribe("auth.sessionChange",
+			function (e) {
+				if (e.session) {
+					displayMe();
+				}
+				else {
+					clearMe();
+				}            
+			}
+		);
+		WL.init({ client_id: client_id, redirect_uri: redirect_uri, response_type: "code", scope: scope });
+		WL.ui({ name: "signin", element: "signin" });
+	</script>
    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.4.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.4/angular.min.js"></script>  
     <script src="angular-websocket.js"></script>
