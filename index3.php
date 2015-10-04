@@ -1,3 +1,4 @@
+<?php include (finalLib.php)?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -56,11 +57,15 @@
   </style>
 
 </head>
+
+
 <body>
 
   <!-- Primary Page Layout
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-	
+<?php
+	if(is_Post){
+		echo '	
 	<div class="container">
 		
 		<div class="row">
@@ -77,13 +82,43 @@
 		
 		</div>
 	</div>
+	';
+	}
+	else {
+		echo '
+			<div class="row">
+			<div class="third column frontPage" style="margin-top: 5%">
+				<h4><strong>Espeon: OneNote Quiz</strong></h4>
+				<p style = "color:white"> You only get to this page if youre authenticated.</p>
+			</div>
+		</div>
+		
+		<div class = "row">
+			<div id="two-third column form">
+				<form method="POST" action="submit.php">
+					<br />
+					<input type="hidden" name="csrf_token" value="<?php /* Print the automatically generated session ID for CSRF protection */ echo htmlspecialchars($_SESSION['csrf_token']); ?>" />
+					<p>Enter Section Name:</p>
+					<input type="text" name="section" />
+					<br/>
+					<button type="submit" name="submit" value="getPages">Get Pages (ignores section name, paginated)</button><br />
+				</form>
+	
+			</div>
+		
+		</div>
+	';
+	}
+	
+	
    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.4.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.4/angular.min.js"></script>  
     <script src="angular-websocket.js"></script>
-    <script src='http://ajax.aspnetcdn.com/ajax/mobileservices/MobileServices.Web-1.2.5.min.js'></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/mobileservices/MobileServices.Web-1.2.5.min.js"></script>
     <script src="/scripts/app.js"></script>
     <script src="maincontrol.js"></script>
 
 
 </body>
+?>
 </html>
